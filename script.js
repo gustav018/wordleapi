@@ -44,10 +44,11 @@ function leerIntento() {
     return intento.toUpperCase();
 }
 
-function intentar() {
+function intentar(mostrarComoCorrecta = false) {
     const INTENTO = leerIntento();
     if (INTENTO === palabra) {
         terminar("<h1>GANASTE!&#128512</h1>");
+        mostrarPalabraGanadora();
         return;
     }
 
@@ -72,7 +73,7 @@ function intentar() {
     }
     GRID.appendChild(ROW);
     intentos--;
-    mostrarVidas(intentos); // para mostrar las vidas
+    mostrarVidas(intentos); 
     if (intentos == 0) {
         contenedorVida.innerHTML = "Te quedan " + intentos + " &#128151";
         terminar("<h3>PERDISTE!&#x1F494; la palabra era " + palabra + "</h3>");
@@ -86,6 +87,23 @@ function terminar(mensaje) {
     let contenedor = document.getElementById('guesses');
     contenedor.innerHTML = mensaje;
 }
+
+function mostrarPalabraGanadora() {
+    const GRID = document.getElementById("grid");
+    const ROW = document.createElement("div");
+    ROW.className = "row";
+
+    for (let i in palabra) {
+        const SPAN = document.createElement("span");
+        SPAN.className = "letter";
+        SPAN.innerHTML = palabra[i];
+        SPAN.style.backgroundColor = "#79b851";
+        ROW.appendChild(SPAN);
+    }
+    GRID.appendChild(ROW);
+}
+
+
 function mostrarVidas(intentos) {
     const CORAZONES = document.getElementById("corazones");
     CORAZONES.innerHTML = "";
@@ -97,7 +115,7 @@ function mostrarVidas(intentos) {
         CORAZON.innerHTML = "&#128151;";
         CORAZONES.appendChild(CORAZON);
     }
-    for (let i = 0; i < 6 - intentos; i++) { // para mostrar corazones rotos
+    for (let i = 0; i < 6 - intentos; i++) { 
         const CORAZON_ROTO = document.createElement("span");
         CORAZON_ROTO.innerHTML = "&#x1F494;";
         CORAZONES.appendChild(CORAZON_ROTO);
